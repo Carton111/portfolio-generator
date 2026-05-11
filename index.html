@@ -4,211 +4,368 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>折页AI — 让你的作品替你赚钱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
-
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
   :root{
-    --bg:#050508;
-    --surface:#0d0d16;
-    --surface2:#12121e;
-    --card:#111118;
-    --card-hover:#17172a;
-    --border:rgba(255,255,255,0.06);
-    --border-hover:rgba(255,255,255,0.12);
-    --text:#f4f4f9;
-    --text2:#a1a1b0;
-    --text3:#63637a;
-    --purple:#8b5cf6;
-    --purple-light:#a78bfa;
-    --purple-bg:rgba(139,92,246,0.08);
-    --purple-border:rgba(139,92,246,0.25);
-    --gradient:linear-gradient(135deg,#8b5cf6,#6d28d9,#7c3aed);
-    --gradient2:linear-gradient(135deg,#8b5cf6,#3b82f6);
-    --radius:12px;
-    --radius-lg:20px;
-    --radius-xl:24px;
+    --bg:#F4F1FA;
+    --text:#332F3A;
+    --text2:#635F69;
+    --accent:#7C3AED;
+    --accent-light:#A78BFA;
+    --pink:#DB2777;
+    --green:#10B981;
+    --white:#FFFFFF;
+    --card-bg:rgba(255,255,255,0.65);
+    --shadow-outer-dark:16px 16px 32px rgba(160,150,180,0.2);
+    --shadow-outer-light:-10px -10px 24px rgba(255,255,255,0.9);
+    --shadow-inner-highlight:inset 6px 6px 12px rgba(139,92,246,0.03);
+    --shadow-inner-shadow:inset -6px -6px 12px rgba(255,255,255,1);
+    --card-shadow:var(--shadow-outer-dark),var(--shadow-outer-light),var(--shadow-inner-highlight),var(--shadow-inner-shadow);
+    --card-shadow-hover:20px 20px 40px rgba(160,150,180,0.28),-12px -12px 28px rgba(255,255,255,1),inset 8px 8px 14px rgba(139,92,246,0.04),inset -8px -8px 14px rgba(255,255,255,1);
+    --btn-shadow:12px 12px 24px rgba(139,92,246,0.3),-8px -8px 16px rgba(255,255,255,0.4),inset 4px 4px 8px rgba(255,255,255,0.4),inset -4px -4px 8px rgba(0,0,0,0.1);
+    --btn-shadow-hover:16px 16px 32px rgba(139,92,246,0.4),-10px -10px 20px rgba(255,255,255,0.5),inset 4px 4px 8px rgba(255,255,255,0.5),inset -4px -4px 8px rgba(0,0,0,0.12);
+    --btn-press-shadow:inset 10px 10px 20px #d9d4e3,inset -10px -10px 20px #ffffff;
   }
 
   html{scroll-behavior:smooth}
   body{
-    font-family:'Inter','Noto Sans SC',system-ui,-apple-system,sans-serif;
+    font-family:'DM Sans',system-ui,-apple-system,sans-serif;
     background:var(--bg);color:var(--text);line-height:1.6;
     -webkit-font-smoothing:antialiased;overflow-x:hidden;
+    position:relative;min-height:100vh;
+  }
+  h1,h2,h3,h4,h5,h6{font-family:'Nunito',sans-serif}
+
+  /* ═════════════════════════════════
+     FLOATING ORBS
+     ═════════════════════════════════ */
+  .floating-orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .orb{
+    position:absolute;border-radius:50%;filter:blur(64px);
+    animation-timing-function:ease-in-out;animation-iteration-count:infinite;
+  }
+  .orb-large{
+    width:60vh;height:60vh;background:rgba(124,58,237,0.1);
+    top:8%;right:-15%;
+    animation-name:orbFloat1;animation-duration:8s;
+  }
+  .orb-medium{
+    width:40vh;height:40vh;background:rgba(219,39,119,0.1);
+    bottom:15%;left:-10%;
+    animation-name:orbFloat2;animation-duration:10s;
+  }
+  .orb-small{
+    width:25vh;height:25vh;background:rgba(59,130,246,0.1);
+    top:50%;left:55%;
+    animation-name:orbFloat3;animation-duration:12s;
+  }
+  @keyframes orbFloat1{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    33%{transform:translateY(-20px) rotate(1deg)}
+    66%{transform:translateY(-8px) rotate(2deg)}
+  }
+  @keyframes orbFloat2{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    33%{transform:translateY(-20px) rotate(1.5deg)}
+    66%{transform:translateY(-8px) rotate(0.5deg)}
+  }
+  @keyframes orbFloat3{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-18px) rotate(1deg)}
   }
 
-  /* ── Glow orbs ── */
-  .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(140px);opacity:.35}
-  .orb-1{width:700px;height:700px;background:rgba(139,92,246,.14);top:-300px;left:-200px}
-  .orb-2{width:500px;height:500px;background:rgba(109,40,217,.1);bottom:-200px;right:-150px}
-  .orb-3{width:400px;height:400px;background:rgba(59,130,246,.08);top:50%;left:50%}
+  /* ═════════════════════════════════
+     LAYOUT
+     ═════════════════════════════════ */
+  .container{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:0 2.5rem}
 
-  .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 2rem}
-
-  /* ── NAV ── */
-  .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;background:rgba(5,5,8,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04);transition:all .35s}
-  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.2rem}
-  .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
-  .logo-icon{width:34px;height:34px;border-radius:9px;background:var(--gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;box-shadow:0 4px 16px rgba(139,92,246,.35)}
-  .logo-text{font-weight:700;font-size:1.1rem;color:var(--text);letter-spacing:-.02em}
-  .logo-text span{background:var(--gradient2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  /* ═════════════════════════════════
+     NAV
+     ═════════════════════════════════ */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;
+    background:rgba(244,241,250,0.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+  .nav-inner{max-width:1160px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:4.2rem}
+  .logo{display:flex;align-items:center;gap:.45rem;text-decoration:none}
+  .logo-icon{width:32px;height:32px;border-radius:12px;background:linear-gradient(135deg,var(--accent-light),var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:800;font-family:'Nunito',sans-serif}
+  .logo-text{font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);letter-spacing:-.02em}
+  .logo-text span{background:linear-gradient(135deg,var(--accent-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
   .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
-  .nav-links a{text-decoration:none;color:var(--text2);font-size:.8rem;font-weight:500;transition:color .25s}
-  .nav-links a:hover{color:var(--text)}
-  .btn-nav{padding:.5rem 1.25rem;border-radius:100px;background:var(--gradient);border:none;color:#fff;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .3s;box-shadow:0 4px 16px rgba(139,92,246,.3)}
-  .btn-nav:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(139,92,246,.45)}
-  .hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none;padding:4px}
-  .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+  .nav-links a{text-decoration:none;color:var(--text2);font-size:.8rem;font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:var(--accent)}
+  .btn-nav{padding:.5rem 1.25rem;border-radius:20px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;background:linear-gradient(135deg,var(--accent-light),var(--accent));color:#fff;box-shadow:var(--btn-shadow);transition:all .25s cubic-bezier(.4,0,.2,1)}
+  .btn-nav:hover{transform:translateY(-4px);box-shadow:var(--btn-shadow-hover)}
+  .btn-nav:active{transform:scale(.92);box-shadow:var(--btn-press-shadow);background:linear-gradient(135deg,var(--accent),#6D28D9)}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  .hamburger span{display:block;width:22px;height:2.5px;background:var(--text);border-radius:99px;transition:all .3s}
 
-  /* ── SECTION ── */
+  /* ═════════════════════════════════
+     SECTIONS
+     ═════════════════════════════════ */
   section{padding:6rem 0;position:relative;z-index:1}
-  .section-label{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--purple-light);margin-bottom:.6rem}
-  .section-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1rem;line-height:1.2}
-  .section-sub{font-size:1.05rem;color:var(--text2);max-width:560px;margin-bottom:3rem}
+  .section-label{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;font-family:'Nunito',sans-serif}
+  .section-title{font-family:'Nunito',sans-serif;font-size:clamp(1.7rem,3.5vw,2.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.1;margin-bottom:.8rem;color:var(--text)}
+  .section-sub{font-size:1rem;color:var(--text2);max-width:520px;margin-bottom:2.5rem;line-height:1.6}
 
-  /* ── HERO ── */
-  .hero{padding:9rem 0 6rem;text-align:center}
-  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .9rem;border-radius:100px;background:var(--purple-bg);border:1px solid var(--purple-border);font-size:.76rem;color:var(--purple-light);margin-bottom:1.5rem}
-  .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#a78bfa;animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .hero h1{font-size:clamp(2.6rem,6vw,4.5rem);font-weight:900;line-height:1.1;letter-spacing:-.04em;margin-bottom:1.25rem}
-  .hero h1 .grad{background:var(--gradient2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-  .hero p{font-size:1.15rem;color:var(--text2);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
-  .hero-users{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .85rem;border-radius:100px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);font-size:.8rem;color:var(--text2);margin-bottom:2.5rem}
-  .hero-users strong{color:var(--text);font-weight:600}
-  .btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.95rem 2.2rem;border-radius:100px;background:var(--gradient);border:none;color:#fff;font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer;box-shadow:0 8px 32px rgba(139,92,246,.4);transition:all .35s;text-decoration:none}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(139,92,246,.55)}
-  .btn-primary.lg{padding:1.1rem 2.8rem;font-size:1.05rem}
+  /* ═════════════════════════════════
+     CARD BASE
+     ═════════════════════════════════ */
+  .card{
+    background:rgba(255,255,255,0.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    border-radius:32px;box-shadow:var(--card-shadow);
+    border:1px solid rgba(255,255,255,0.5);
+    transition:all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .card:hover{transform:translateY(-8px);box-shadow:var(--card-shadow-hover)}
 
-  /* ── SCREENSHOT MOCK ── */
-  .screenshot-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5)}
-  .screenshot-toolbar{display:flex;align-items:center;gap:.5rem;padding:.85rem 1.2rem;background:var(--surface2);border-bottom:1px solid var(--border)}
-  .screenshot-dot{width:10px;height:10px;border-radius:50%}
-  .screenshot-dot:nth-child(1){background:#ff5f57}.screenshot-dot:nth-child(2){background:#febc2e}.screenshot-dot:nth-child(3){background:#28c840}
-  .screenshot-url{flex:1;margin:0 1rem;padding:.35rem .75rem;border-radius:6px;background:var(--surface);font-size:.7rem;color:var(--text3)}
-  .screenshot-body{display:grid;grid-template-columns:220px 1fr;min-height:400px}
-  .screenshot-sidebar{padding:1rem;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:.5rem}
-  .screenshot-sidebar .item{padding:.5rem .75rem;border-radius:6px;font-size:.75rem;color:var(--text3)}
-  .screenshot-sidebar .item.active{background:var(--purple-bg);color:var(--purple-light)}
-  .screenshot-main{padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-  .screenshot-block{aspect-ratio:4/3;border-radius:8px;background:var(--surface2);border:1px solid var(--border)}
-  .screenshot-block:nth-child(1){background:linear-gradient(135deg,#2d1b69,#1e1145)}
-  .screenshot-block:nth-child(2){background:linear-gradient(135deg,#1a2744,#0f1b33)}
-  .screenshot-block:nth-child(3){background:linear-gradient(135deg,#1d1a2e,#151225);grid-column:span 2}
-
-  .advantages{display:flex;justify-content:center;gap:3rem;margin-top:2.5rem;flex-wrap:wrap}
-  .adv-item{display:flex;align-items:center;gap:.55rem;font-size:.82rem;color:var(--text2)}
-  .adv-item .check{color:var(--purple-light);font-weight:700}
-
-  /* ── TRUST ── */
-  .trust-avatars{display:flex;justify-content:center;flex-wrap:wrap;gap:2rem;margin-top:1rem}
-  .trust-card{text-align:center}
-  .trust-avatar{width:60px;height:60px;border-radius:50%;margin:0 auto .6rem;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--text3);border:2px solid var(--border)}
-  .trust-card:nth-child(1) .trust-avatar{background:linear-gradient(135deg,#2d1b69,#4c1d95)}.trust-card:nth-child(2) .trust-avatar{background:linear-gradient(135deg,#1e3a5f,#1e40af)}.trust-card:nth-child(3) .trust-avatar{background:linear-gradient(135deg,#3b1d5f,#6d28d9)}.trust-card:nth-child(4) .trust-avatar{background:linear-gradient(135deg,#1a2744,#2563eb)}.trust-card:nth-child(5) .trust-avatar{background:linear-gradient(135deg,#2d1b4e,#7c3aed)}.trust-card:nth-child(6) .trust-avatar{background:linear-gradient(135deg,#1d2e1a,#059669)}
-  .trust-card .name{font-size:.82rem;font-weight:600;margin-bottom:.15rem}
-  .trust-card .role{font-size:.7rem;color:var(--text3)}
-
-  /* ── CASES ── */
-  .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-  .case-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all .35s;cursor:pointer}
-  .case-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.4)}
-  .case-preview{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:rgba(255,255,255,.25)}
-  .case-card:nth-child(1) .case-preview{background:linear-gradient(135deg,#1a1a3e,#2d1b69)}
-  .case-card:nth-child(2) .case-preview{background:linear-gradient(135deg,#1a2744,#1e3a5f)}
-  .case-card:nth-child(3) .case-preview{background:linear-gradient(135deg,#1d1a2e,#3b1d4e)}
-  .case-card:nth-child(4) .case-preview{background:linear-gradient(135deg,#1a1f2e,#1e2d4a)}
-  .case-card:nth-child(5) .case-preview{background:linear-gradient(135deg,#1d1a1a,#3d1d1d)}
-  .case-card:nth-child(6) .case-preview{background:linear-gradient(135deg,#1a1e1a,#1d3a1d)}
-  .case-info{padding:1rem 1.2rem}
-  .case-info h4{font-size:.88rem;font-weight:600;margin-bottom:.2rem}
-  .case-info p{font-size:.72rem;color:var(--text3)}
-
-  /* ── FEATURES ── */
-  .features-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-  .feature-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;transition:all .3s}
-  .feature-card:hover{border-color:var(--border-hover);background:var(--card-hover)}
-  .feature-icon{width:40px;height:40px;border-radius:10px;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:1rem}
-  .feature-card h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
-  .feature-card p{font-size:.85rem;color:var(--text2);line-height:1.65}
-
-  /* ── TESTIMONIALS ── */
-  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-  .testimonial-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem}
-  .testimonial-stars{color:#f59e0b;font-size:.85rem;margin-bottom:.75rem;letter-spacing:.1em}
-  .testimonial-card .quote{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:1.25rem;font-style:italic}
-  .testimonial-author{display:flex;align-items:center;gap:.65rem}
-  .testimonial-avatar{width:36px;height:36px;border-radius:50%}
-  .testimonial-card:nth-child(1) .testimonial-avatar{background:linear-gradient(135deg,#a78bfa,#8b5cf6)}
-  .testimonial-card:nth-child(2) .testimonial-avatar{background:linear-gradient(135deg,#60a5fa,#3b82f6)}
-  .testimonial-card:nth-child(3) .testimonial-avatar{background:linear-gradient(135deg,#34d399,#059669)}
-  .testimonial-author .name{font-size:.8rem;font-weight:600}.testimonial-author .role{font-size:.7rem;color:var(--text3)}
-
-  /* ── COMPARISON ── */
-  .compare-table{width:100%;border-collapse:collapse;font-size:.88rem}
-  .compare-table th,.compare-table td{padding:1rem 1.5rem;text-align:center}
-  .compare-table thead th{font-weight:600;font-size:.8rem;color:var(--text2);border-bottom:1px solid var(--border)}
-  .compare-table thead th:first-child{text-align:left}
-  .compare-table thead th.highlight-col{color:var(--purple-light)}
-  .compare-table tbody td{border-bottom:1px solid var(--border);color:var(--text2)}
-  .compare-table tbody td:first-child{text-align:left;font-weight:500;color:var(--text)}
-  .compare-table tbody td.highlight-col{background:var(--purple-bg);color:var(--purple-light);font-weight:600}
-  .compare-table .check-mark{color:var(--purple-light);font-weight:700}
-  .compare-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card)}
-
-  /* ── CTA ── */
-  .cta-section{text-align:center;padding:8rem 0}
-  .cta-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:4rem 2rem;position:relative;overflow:hidden}
-  .cta-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(139,92,246,.08) 0%,transparent 70%)}
-  .cta-card>*{position:relative;z-index:1}
-  .cta-card h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;margin-bottom:.75rem;letter-spacing:-.03em}
-  .cta-card p{color:var(--text2);margin-bottom:2rem;font-size:1.05rem}
-
-  /* ── FOOTER ── */
-  footer{padding:3rem 0;border-top:1px solid var(--border);text-align:center}
-  .footer-links{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
-  .footer-links a{text-decoration:none;color:var(--text3);font-size:.78rem;transition:color .25s}
-  .footer-links a:hover{color:var(--text)}
-  footer .copy{font-size:.72rem;color:var(--text3)}
-
-  /* ── ANIMATION ── */
-  .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+  /* ═════════════════════════════════
+     ANIMATION
+     ═════════════════════════════════ */
+  .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
   .reveal.visible{opacity:1;transform:translateY(0)}
 
-  /* ── RESPONSIVE ── */
+  /* ═════════════════════════════════
+     HERO
+     ═════════════════════════════════ */
+  .hero{padding:9rem 0 5rem;text-align:center}
+  .hero-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem 1rem;border-radius:99px;
+    background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:var(--card-shadow);font-size:.78rem;font-weight:500;color:var(--text);margin-bottom:1.8rem}
+  .hero h1{font-family:'Nunito',sans-serif;font-size:clamp(2.6rem,6vw,5rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:1rem;color:var(--text)}
+  .hero h1 .grad{background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero-subtitle{font-size:1.1rem;color:var(--text2);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+  .hero-users-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.28rem .85rem;border-radius:99px;
+    background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    box-shadow:var(--card-shadow);font-size:.78rem;color:var(--text2);margin-bottom:2.5rem}
+  .hero-users-badge strong{color:var(--accent);font-weight:700}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  /* Buttons */
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.85rem 2rem;border-radius:20px;
+    background:linear-gradient(135deg,var(--accent-light),var(--accent));
+    color:#fff;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;
+    cursor:pointer;text-decoration:none;border:none;
+    box-shadow:var(--btn-shadow);
+    transition:all .25s cubic-bezier(.4,0,.2,1);
+  }
+  .btn-primary:hover{transform:translateY(-4px);box-shadow:var(--btn-shadow-hover)}
+  .btn-primary:active{transform:scale(.92);box-shadow:var(--btn-press-shadow);background:linear-gradient(135deg,var(--accent),#6D28D9)}
+  .btn-primary.lg{padding:1.05rem 2.6rem;font-size:1rem;font-weight:700}
+
+  .btn-secondary{
+    display:inline-flex;align-items:center;gap:.4rem;
+    padding:.85rem 2rem;border-radius:20px;
+    background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    color:var(--text);font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;
+    cursor:pointer;text-decoration:none;border:none;
+    box-shadow:var(--card-shadow);
+    transition:all .25s cubic-bezier(.4,0,.2,1);
+  }
+  .btn-secondary:hover{transform:translateY(-4px);box-shadow:var(--card-shadow-hover)}
+  .btn-secondary:active{transform:scale(.92);box-shadow:var(--btn-press-shadow)}
+
+  /* Hero stat bubbles */
+  .hero-bubbles{display:flex;justify-content:center;gap:2rem;margin-top:3rem;flex-wrap:wrap}
+  .stat-bubble{
+    width:120px;height:120px;border-radius:50%;
+    background:var(--card-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+    box-shadow:var(--card-shadow);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    animation:breathe 3s ease-in-out infinite;
+    transition:all .35s cubic-bezier(.4,0,.2,1);cursor:default;
+  }
+  .stat-bubble:nth-child(2){animation-delay:.6s}
+  .stat-bubble:nth-child(3){animation-delay:1.2s}
+  .stat-bubble:hover{transform:scale(1.1);animation-play-state:paused}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+  .stat-bubble .num{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--accent)}
+  .stat-bubble .label{font-size:.65rem;color:var(--text2);font-weight:500;text-align:center;margin-top:.15rem}
+
+  /* ═════════════════════════════════
+     DEMO SCREEN
+     ═════════════════════════════════ */
+  .demo-card{border-radius:48px;overflow:hidden}
+  .demo-toolbar{display:flex;align-items:center;gap:.45rem;padding:.75rem 1.2rem;
+    background:rgba(40,35,50,0.06);border-bottom:1px solid rgba(0,0,0,0.04)}
+  .demo-dot{width:10px;height:10px;border-radius:50%}
+  .demo-dot:nth-child(1){background:#FF5F57}.demo-dot:nth-child(2){background:#FEBC2E}.demo-dot:nth-child(3){background:#28C840}
+  .demo-url{flex:1;margin:0 1rem;padding:.3rem .7rem;border-radius:99px;
+    background:rgba(255,255,255,0.4);font-size:.7rem;color:var(--text2)}
+  .demo-body{display:grid;grid-template-columns:190px 1fr;min-height:360px}
+  .demo-sidebar{padding:.8rem;border-right:1px solid rgba(0,0,0,0.04);display:flex;flex-direction:column;gap:.3rem;background:rgba(255,255,255,0.3)}
+  .demo-sidebar .item{padding:.45rem .65rem;border-radius:14px;font-size:.72rem;color:var(--text2);font-weight:500}
+  .demo-sidebar .item.active{background:rgba(124,58,237,0.12);color:var(--accent);font-weight:700}
+  .demo-main{padding:1rem;display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+  .demo-block{border-radius:20px}
+  .demo-block:nth-child(1){background:linear-gradient(135deg,rgba(167,139,250,0.2),rgba(124,58,237,0.08))}
+  .demo-block:nth-child(2){background:linear-gradient(135deg,rgba(219,39,119,0.12),rgba(219,39,119,0.04))}
+  .adv-row{display:flex;justify-content:center;gap:3rem;margin-top:2rem;flex-wrap:wrap}
+  .adv-item{display:flex;align-items:center;gap:.5rem;font-size:.82rem;color:var(--text2);font-weight:500}
+  .adv-item .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+
+  /* ═════════════════════════════════
+     TRUST
+     ═════════════════════════════════ */
+  .trust-grid{display:flex;justify-content:center;flex-wrap:wrap;gap:2rem}
+  .trust-item{text-align:center}
+  .trust-avatar{
+    width:64px;height:64px;border-radius:50%;margin:0 auto .5rem;
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+    background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    box-shadow:var(--card-shadow);transition:all .3s;cursor:default;
+  }
+  .trust-avatar:hover{transform:scale(1.1)}
+  .trust-item .tname{font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:800;color:var(--text)}
+  .trust-item .trole{font-size:.7rem;color:var(--text2);font-weight:500}
+
+  /* ═════════════════════════════════
+     BENTO FEATURES
+     ═════════════════════════════════ */
+  .bento-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1.2rem}
+  .bento-card{padding:2rem 1.5rem;transition:all .35s cubic-bezier(.4,0,.2,1)}
+  .bento-card:hover{transform:translateY(-8px);box-shadow:var(--card-shadow-hover)}
+  .bento-card.col-2{grid-column:span 2}
+  .bento-card.col-3{grid-column:span 3}
+  .bento-card.col-4{grid-column:span 4}
+  .bento-icon{
+    width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:1.15rem;margin-bottom:1rem;
+    background:var(--card-bg);box-shadow:var(--card-shadow);
+    transition:transform .3s;
+  }
+  .bento-card:hover .bento-icon{transform:scale(1.08)}
+  .bento-card h3{font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:800;margin-bottom:.35rem}
+  .bento-card p{font-size:.82rem;color:var(--text2);line-height:1.6;font-weight:400}
+
+  /* ═════════════════════════════════
+     TESTIMONIALS
+     ═════════════════════════════════ */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .testimonial-card{padding:1.8rem}
+  .testimonial-stars{color:#F59E0B;font-size:.85rem;margin-bottom:.6rem;letter-spacing:.06em}
+  .testimonial-card .quote{font-size:.85rem;color:var(--text2);line-height:1.7;margin-bottom:1.25rem}
+  .testimonial-author{display:flex;align-items:center;gap:.65rem}
+  .testimonial-avatar{width:38px;height:38px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent-light),var(--accent));flex-shrink:0}
+  .testimonial-author .aname{font-family:'Nunito',sans-serif;font-size:.78rem;font-weight:800;color:var(--text)}
+  .testimonial-author .arole{font-size:.68rem;color:var(--text2);font-weight:500}
+
+  /* ═════════════════════════════════
+     COMPARISON TABLE
+     ═════════════════════════════════ */
+  .compare-wrap{overflow-x:auto;border-radius:32px;
+    background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    box-shadow:var(--card-shadow)}
+  .compare-table{width:100%;border-collapse:collapse;font-size:.85rem}
+  .compare-table th,.compare-table td{padding:.95rem 1.5rem;text-align:center}
+  .compare-table thead th{font-family:'Nunito',sans-serif;font-weight:800;font-size:.78rem;color:var(--text2);border-bottom:1px solid rgba(0,0,0,0.05)}
+  .compare-table thead th:first-child{text-align:left}
+  .compare-table thead th.hl{color:var(--accent)}
+  .compare-table tbody td{border-bottom:1px solid rgba(0,0,0,0.04);color:var(--text2);font-weight:500}
+  .compare-table tbody td:first-child{text-align:left;font-weight:700;color:var(--text)}
+  .compare-table tbody td.hl{background:rgba(124,58,237,0.05);color:var(--accent);font-weight:700}
+
+  /* ═════════════════════════════════
+     PRICING
+     ═════════════════════════════════ */
+  .pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:720px;margin:0 auto}
+  .pricing-card{padding:2.5rem 2rem;text-align:center;position:relative}
+  .pricing-card.featured{transform:scale(1.04)}
+  .pricing-card.featured:hover{transform:scale(1.04) translateY(-8px)}
+  .pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:.3rem 1.2rem;border-radius:99px;
+    background:linear-gradient(135deg,var(--accent-light),var(--accent));color:#fff;
+    font-size:.7rem;font-weight:700;font-family:'Nunito',sans-serif;white-space:nowrap;
+    box-shadow:var(--btn-shadow)}
+  .pricing-card h3{font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.3rem}
+  .pricing-card .price{font-family:'Nunito',sans-serif;font-size:2.8rem;font-weight:900;color:var(--accent);margin:.8rem 0}
+  .pricing-card .price span{font-size:1rem;font-weight:700;color:var(--text2)}
+  .pricing-features{list-style:none;text-align:left;margin:1.5rem 0}
+  .pricing-features li{padding:.4rem 0;font-size:.82rem;color:var(--text2);display:flex;align-items:center;gap:.5rem;font-weight:500}
+  .pricing-features li .check{color:var(--green);font-weight:700}
+
+  /* ═════════════════════════════════
+     CTA BOTTOM
+     ═════════════════════════════════ */
+  .cta-section{padding:7rem 0;text-align:center}
+  .cta-card{padding:4rem 2rem;border-radius:60px;position:relative;overflow:hidden}
+  .cta-card::before{content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(167,139,250,0.1) 0%,transparent 70%)}
+  .cta-card>*{position:relative;z-index:1}
+  .cta-card h2{font-family:'Nunito',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;letter-spacing:-.02em;margin-bottom:.5rem;line-height:1.1}
+  .cta-card p{color:var(--text2);margin-bottom:2rem;font-size:1.05rem;font-weight:500}
+
+  /* ═════════════════════════════════
+     FOOTER
+     ═════════════════════════════════ */
+  footer{padding:3rem 0;text-align:center;position:relative;z-index:1;
+    border-top:1px solid rgba(0,0,0,0.04)}
+  .footer-links{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+  .footer-links a{text-decoration:none;color:var(--text2);font-size:.78rem;font-weight:500;transition:color .2s}
+  .footer-links a:hover{color:var(--accent)}
+  footer .copy{font-size:.72rem;color:var(--text2);font-weight:500}
+
+  /* ═════════════════════════════════
+     TOAST
+     ═════════════════════════════════ */
+  .toast{position:fixed;bottom:2rem;left:50%;z-index:999;pointer-events:none;
+    padding:.7rem 1.6rem;border-radius:99px;
+    background:var(--card-bg);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    box-shadow:var(--card-shadow-hover);color:var(--text);font-size:.82rem;font-weight:500;
+    font-family:'DM Sans',sans-serif;
+    transform:translateX(-50%) translateY(120px);
+    transition:transform .4s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  /* ═════════════════════════════════
+     RESPONSIVE
+     ═════════════════════════════════ */
   @media(max-width:900px){
     .nav-links{display:none}
     .hamburger{display:flex}
-    .nav-links.mobile-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;gap:0;background:rgba(5,5,8,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-    .nav-links.mobile-open a{padding:.85rem 2rem;border-bottom:1px solid var(--border)}
-    .cases-grid{grid-template-columns:repeat(2,1fr)}
-    .features-grid{grid-template-columns:1fr}
+    .nav-links.mobile-open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;gap:0;
+      background:rgba(244,241,250,0.96);backdrop-filter:blur(24px);padding:.5rem 0}
+    .nav-links.mobile-open a,.nav-links.mobile-open .btn-nav{padding:.75rem 2rem;border-radius:0;width:100%;justify-content:flex-start}
+    .bento-grid{grid-template-columns:repeat(2,1fr)}
+    .bento-card.col-4,.bento-card.col-3{grid-column:span 2}
+    .bento-card.col-2{grid-column:span 1}
     .testimonials-grid{grid-template-columns:1fr}
-    .screenshot-body{grid-template-columns:160px 1fr;min-height:300px}
-    .screenshot-main{grid-template-columns:1fr}
+    .pricing-grid{grid-template-columns:1fr;max-width:360px}
+    .pricing-card.featured{transform:none}.pricing-card.featured:hover{transform:translateY(-8px)}
+    .demo-body{grid-template-columns:140px 1fr;min-height:260px}
   }
   @media(max-width:560px){
-    .cases-grid{grid-template-columns:1fr}
-    .screenshot-body{grid-template-columns:1fr}
-    .screenshot-sidebar{display:none}
-    .advantages{flex-direction:column;align-items:center;gap:1rem}
     .container{padding:0 1.25rem}
     section{padding:4rem 0}
-    .hero{padding:7rem 0 4rem}
+    .hero{padding:7rem 0 3.5rem}
+    .bento-grid{grid-template-columns:1fr}
+    .bento-card.col-2,.bento-card.col-3,.bento-card.col-4{grid-column:span 1}
+    .demo-body{grid-template-columns:1fr}.demo-sidebar{display:none}
+    .demo-main{grid-template-columns:1fr}
+    .hero-bubbles{gap:1rem}
+    .stat-bubble{width:100px;height:100px}
+    .stat-bubble .num{font-size:1.1rem}
   }
 </style>
 </head>
 <body>
 
-<div class="orb orb-1"></div>
-<div class="orb orb-2"></div>
-<div class="orb orb-3"></div>
+<!-- FLOATING ORBS -->
+<div class="floating-orbs">
+  <div class="orb orb-large"></div>
+  <div class="orb orb-medium"></div>
+  <div class="orb orb-small"></div>
+</div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
     <a href="#" class="logo">
-      <div class="logo-icon">&#9671;</div>
+      <div class="logo-icon">&#9830;</div>
       <div class="logo-text">折页<span>AI</span></div>
     </a>
     <button class="hamburger" id="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
@@ -217,7 +374,7 @@
       <li><a href="#features">功能</a></li>
       <li><a href="#pricing">定价</a></li>
       <li><a href="#">登录</a></li>
-      <li><button class="btn-nav" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">免费开始 →</button></li>
+      <li><a href="#hero" class="btn-nav">免费开始</a></li>
     </ul>
   </div>
 </nav>
@@ -225,47 +382,59 @@
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="container">
-    <div class="hero-badge"><span class="dot"></span> PortfolioAI 正式上线</div>
-    <h1>让你的作品，<br>替你<span class="grad">赚钱</span></h1>
-    <p>无需代码，10分钟搭建专属作品集网站。让更多客户发现你。</p>
-    <div class="hero-users">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      已有 <strong>12,483</strong> 位创作者使用
+    <div class="hero-badge">&#127912; 专为创意人打造</div>
+    <h1>让你的作品集，<br>替你<span class="grad">赚钱</span></h1>
+    <p class="hero-subtitle">无需代码，10分钟搭建专属作品集网站。让更多客户发现你的才华。</p>
+    <div class="hero-users-badge">&#10024; 已有 <strong>12,483</strong> 位创作者使用</div>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary lg">免费创建我的网站 &#10132;</a>
+      <a href="#cases" class="btn-secondary">查看案例</a>
     </div>
-    <br>
-    <a href="#" class="btn-primary lg" id="heroCta">免费创建我的网站 →</a>
+    <div class="hero-bubbles">
+      <div class="stat-bubble">
+        <div class="num" id="userStat">12,483</div>
+        <div class="label">位创作者</div>
+      </div>
+      <div class="stat-bubble">
+        <div class="num">98%</div>
+        <div class="label">好评率</div>
+      </div>
+      <div class="stat-bubble">
+        <div class="num">10分钟</div>
+        <div class="label">极速上线</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SCREENSHOT -->
+<!-- DEMO -->
 <section id="demo">
   <div class="container reveal">
     <div class="section-label">产品预览</div>
     <h2 class="section-title">所见即所得，实时编辑</h2>
-    <p class="section-sub">直观的编辑器界面，拖拽即可完成排版，无需学习任何代码。</p>
-    <div class="screenshot-card">
-      <div class="screenshot-toolbar">
-        <div class="screenshot-dot"></div><div class="screenshot-dot"></div><div class="screenshot-dot"></div>
-        <div class="screenshot-url">https://portfolio.site/yourname</div>
+    <p class="section-sub">直观的编辑器界面，拖拽即可完成排版。不需要写一行代码。</p>
+    <div class="demo-card card">
+      <div class="demo-toolbar">
+        <div class="demo-dot"></div><div class="demo-dot"></div><div class="demo-dot"></div>
+        <div class="demo-url">https://portfolio.site/yourname</div>
       </div>
-      <div class="screenshot-body">
-        <div class="screenshot-sidebar">
-          <div class="item active">▸ 首页</div>
-          <div class="item">&emsp;作品集</div>
-          <div class="item">&emsp;关于我</div>
-          <div class="item">&emsp;联系方式</div>
+      <div class="demo-body">
+        <div class="demo-sidebar">
+          <div class="item active">&#9654; 首页</div>
+          <div class="item">&emsp13; 作品集</div>
+          <div class="item">&emsp13; 关于我</div>
+          <div class="item">&emsp13; 联系方式</div>
         </div>
-        <div class="screenshot-main">
-          <div class="screenshot-block"></div>
-          <div class="screenshot-block"></div>
-          <div class="screenshot-block"></div>
+        <div class="demo-main">
+          <div class="demo-block"></div>
+          <div class="demo-block"></div>
         </div>
       </div>
     </div>
-    <div class="advantages">
-      <div class="adv-item"><span class="check">✓</span> 无需信用卡</div>
-      <div class="adv-item"><span class="check">✓</span> 无限免费试用</div>
-      <div class="adv-item"><span class="check">✓</span> 随时发布上线</div>
+    <div class="adv-row">
+      <div class="adv-item"><span class="dot"></span> 无需信用卡</div>
+      <div class="adv-item"><span class="dot"></span> 无限免费试用</div>
+      <div class="adv-item"><span class="dot"></span> 随时发布上线</div>
     </div>
   </div>
 </section>
@@ -275,61 +444,54 @@
   <div class="container reveal">
     <div class="section-label">创作者社区</div>
     <h2 class="section-title">超过 10,000 位创作者的选择</h2>
-    <p class="section-sub">无论你是什么职业，总能在折页AI找到最适合的作品集模板。</p>
-    <div class="trust-avatars">
-      <div class="trust-card"><div class="trust-avatar">📷</div><div class="name">陈一凡</div><div class="role">摄影师</div></div>
-      <div class="trust-card"><div class="trust-avatar">🎨</div><div class="name">周小雅</div><div class="role">插画师</div></div>
-      <div class="trust-card"><div class="trust-avatar">✏️</div><div class="name">李铭轩</div><div class="role">平面设计师</div></div>
-      <div class="trust-card"><div class="trust-avatar">🏠</div><div class="name">王思涵</div><div class="role">室内设计师</div></div>
-      <div class="trust-card"><div class="trust-avatar">🎬</div><div class="name">赵一鸣</div><div class="role">视频导演</div></div>
-      <div class="trust-card"><div class="trust-avatar">🖌️</div><div class="name">林语桐</div><div class="role">UI 设计师</div></div>
+    <p class="section-sub">无论你是什么职业，都能找到最适合的作品集呈现方式。</p>
+    <div class="trust-grid">
+      <div class="trust-item"><div class="trust-avatar">&#128247;</div><div class="tname">陈一凡</div><div class="trole">摄影师</div></div>
+      <div class="trust-item"><div class="trust-avatar">&#127912;</div><div class="tname">周小雅</div><div class="trole">插画师</div></div>
+      <div class="trust-item"><div class="trust-avatar">&#9999;</div><div class="tname">李铭轩</div><div class="trole">平面设计师</div></div>
+      <div class="trust-item"><div class="trust-avatar">&#127968;</div><div class="tname">王思涵</div><div class="trole">室内设计师</div></div>
+      <div class="trust-item"><div class="trust-avatar">&#127916;</div><div class="tname">赵一鸣</div><div class="trole">视频导演</div></div>
+      <div class="trust-item"><div class="trust-avatar">&#128241;</div><div class="tname">林语桐</div><div class="trole">UI 设计师</div></div>
     </div>
   </div>
 </section>
 
-<!-- CASES -->
-<section id="cases">
-  <div class="container reveal">
-    <div class="section-label">精选案例</div>
-    <h2 class="section-title">看看别人是怎么用的</h2>
-    <p class="section-sub">从摄影到设计，每种职业都能在这里找到灵感。</p>
-    <div class="cases-grid">
-      <div class="case-card"><div class="case-preview">作品缩略图</div><div class="case-info"><h4>光影集 · 人像摄影</h4><p>摄影师 · 陈一凡</p></div></div>
-      <div class="case-card"><div class="case-preview">作品缩略图</div><div class="case-info"><h4>城市呼吸 · 街拍</h4><p>摄影师 · 张浩然</p></div></div>
-      <div class="case-card"><div class="case-preview">作品缩略图</div><div class="case-info"><h4>素白 · 品牌设计</h4><p>平面设计师 · 李铭轩</p></div></div>
-      <div class="case-card"><div class="case-preview">作品缩略图</div><div class="case-info"><h4>幻想乡 · 插画集</h4><p>插画师 · 周小雅</p></div></div>
-      <div class="case-card"><div class="case-preview">作品缩略图</div><div class="case-info"><h4>灰度空间 · 建筑摄影</h4><p>室内设计师 · 王思涵</p></div></div>
-      <div class="case-card"><div class="case-preview">作品缩略图</div><div class="case-info"><h4>像素逻辑 · UI作品集</h4><p>UI 设计师 · 林语桐</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
+<!-- FEATURES BENTO -->
 <section id="features">
   <div class="container reveal">
     <div class="section-label">为什么选择折页AI</div>
     <h2 class="section-title">专为创意人打造</h2>
-    <p class="section-sub">每一步都为你优化，让建站变得像发朋友圈一样简单。</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
+    <p class="section-sub">每一步都为你优化，让建站像发朋友圈一样简单。</p>
+    <div class="bento-grid">
+      <div class="bento-card card col-3">
+        <div class="bento-icon">&#9889;</div>
         <h3>极速建站</h3>
-        <p>从注册到上线只需 10 分钟，不需要等待、不需要学习。比外包快 100 倍，比自己学代码快 1000 倍。</p>
+        <p>从注册到上线只需 10 分钟。比外包快 100 倍，比自己学代码快 1000 倍。不需要等待、不需要技术背景。</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
+      <div class="bento-card card col-3">
+        <div class="bento-icon">&#127912;</div>
         <h3>专业模板</h3>
-        <p>专为摄影师、设计师、插画师量身定制的高端模板。每一套都经过精心设计，让你的作品以最好的方式呈现。</p>
+        <p>专为摄影师、设计师、插画师量身定制的高端模板，每一套都经过精心打磨，让你的作品以最优的方式呈现。</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">👆</div>
+      <div class="bento-card card col-2">
+        <div class="bento-icon">&#9757;</div>
         <h3>无需代码</h3>
-        <p>拖拽式操作，所见即所得。不用写一行代码，专注做好你最擅长的事情——创作。</p>
+        <p>拖拽式操作，所见即所得。不用写一行代码，专注做好你最擅长的事。</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">💬</div>
+      <div class="bento-card card col-2">
+        <div class="bento-icon">&#128172;</div>
         <h3>微信分享</h3>
-        <p>一键生成分享卡片，适配微信、朋友圈、小红书等平台。让你的作品集无死角触达潜在客户。</p>
+        <p>一键生成分享卡片，适配微信、朋友圈、小红书等平台，让作品集无死角触达客户。</p>
+      </div>
+      <div class="bento-card card col-2">
+        <div class="bento-icon">&#128200;</div>
+        <h3>数据分析</h3>
+        <p>实时查看访客数据，了解谁在看你的作品，精准优化内容策略。</p>
+      </div>
+      <div class="bento-card card col-4">
+        <div class="bento-icon">&#127760;</div>
+        <h3>自定义域名</h3>
+        <p>绑定你自己的域名，建立专属品牌形象。让你的作品集拥有独立、专业的网址，增强客户信任感。</p>
       </div>
     </div>
   </div>
@@ -340,30 +502,30 @@
   <div class="container reveal">
     <div class="section-label">用户评价</div>
     <h2 class="section-title">他们都在用</h2>
-    <p class="section-sub">听听真实用户怎么说。</p>
+    <p class="section-sub">听听真实创作者怎么说。</p>
     <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="quote">"以前一直用PDF发作品集，客户经常打不开。用折页AI建站后，直接甩个链接过去，专业感翻倍。半个月就接了两个新客户。"</p>
+      <div class="testimonial-card card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="quote">"以前一直用PDF发作品集，客户经常打不开。用折页AI后直接甩链接，专业感翻倍，半个月就接了两个新客户。"</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar"></div>
-          <div><div class="name">陈一凡</div><div class="role">自由摄影师</div></div>
+          <div><div class="aname">陈一凡</div><div class="arole">自由摄影师</div></div>
         </div>
       </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="quote">"作为一个不懂代码的设计师，我终于有了一个真正能代表自己审美的网站。模板质量很高，细节处理比我预期的要好很多。"</p>
+      <div class="testimonial-card card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="quote">"作为不懂代码的设计师，我终于有了一个真正能代表自己审美的网站。模板质量很高，细节超出预期。"</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar"></div>
-          <div><div class="name">李铭轩</div><div class="role">品牌设计师</div></div>
+          <div><div class="aname">李铭轩</div><div class="arole">品牌设计师</div></div>
         </div>
       </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="quote">"微信分享功能太实用了！一键生成封面卡片，客户直接在微信里就能看到我的作品。免费版功能已经足够好用了。"</p>
+      <div class="testimonial-card card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="quote">"微信分享功能太实用了！一键生成封面卡片，客户在微信里就能看到作品。免费版功能已经足够好用了。"</p>
         <div class="testimonial-author">
           <div class="testimonial-avatar"></div>
-          <div><div class="name">林语桐</div><div class="role">UI 设计师</div></div>
+          <div><div class="aname">林语桐</div><div class="arole">UI 设计师</div></div>
         </div>
       </div>
     </div>
@@ -371,48 +533,62 @@
 </section>
 
 <!-- COMPARISON -->
-<section id="pricing">
+<section id="compare">
   <div class="container reveal">
     <div class="section-label">为什么不试试？</div>
     <h2 class="section-title">一个明智的选择</h2>
     <p class="section-sub">对比一下，你会发现这是最简单的决定。</p>
-    <div class="compare-table-wrap">
+    <div class="compare-wrap">
       <table class="compare-table">
         <thead>
-          <tr>
-            <th></th>
-            <th class="highlight-col">折页AI</th>
-            <th>找外包</th>
-            <th>自学代码</th>
-          </tr>
+          <tr><th></th><th class="hl">折页AI</th><th>找外包</th><th>自学代码</th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>费用</td>
-            <td class="highlight-col">免费开始</td>
-            <td>¥5,000 - 30,000</td>
-            <td>时间成本极高</td>
-          </tr>
-          <tr>
-            <td>上线时间</td>
-            <td class="highlight-col">10 分钟</td>
-            <td>2 - 4 周</td>
-            <td>3 - 6 个月</td>
-          </tr>
-          <tr>
-            <td>设计质量</td>
-            <td class="highlight-col">专业级模板</td>
-            <td>看预算和运气</td>
-            <td>取决于你的水平</td>
-          </tr>
-          <tr>
-            <td>后期修改</td>
-            <td class="highlight-col">随时自主更新</td>
-            <td>需要再付费</td>
-            <td>需要自己写代码</td>
-          </tr>
+          <tr><td>费用</td><td class="hl">免费开始</td><td>¥5,000 - 30,000</td><td>时间成本极高</td></tr>
+          <tr><td>上线时间</td><td class="hl">10 分钟</td><td>2 - 4 周</td><td>3 - 6 个月</td></tr>
+          <tr><td>设计质量</td><td class="hl">专业级模板</td><td>看预算和运气</td><td>取决于你的水平</td></tr>
+          <tr><td>后期修改</td><td class="hl">随时自主更新</td><td>需要再付费</td><td>需要自己写代码</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container reveal">
+    <div class="section-label">定价方案</div>
+    <h2 class="section-title">简单透明的选择</h2>
+    <p class="section-sub">选择最适合你的方案，随时升级。</p>
+    <div class="pricing-grid">
+      <div class="pricing-card card">
+        <h3>免费版</h3>
+        <p style="color:var(--text2);font-size:.85rem">适合刚开始建立作品集的创作者</p>
+        <div class="price">¥0<span>/月</span></div>
+        <ul class="pricing-features">
+          <li><span class="check">&#10003;</span> 1个作品集网站</li>
+          <li><span class="check">&#10003;</span> 6套精选模板</li>
+          <li><span class="check">&#10003;</span> 最多12个项目</li>
+          <li><span class="check">&#10003;</span> 基础微信分享</li>
+          <li><span class="check">&#10003;</span> 折页AI品牌标识</li>
+        </ul>
+        <a href="#" class="btn-secondary" style="width:100%;justify-content:center">免费开始</a>
+      </div>
+      <div class="pricing-card card featured">
+        <div class="pricing-badge">最受欢迎</div>
+        <h3>Pro版</h3>
+        <p style="color:var(--text2);font-size:.85rem">适合想要完整功能的专业创作者</p>
+        <div class="price">¥39<span>/月</span></div>
+        <ul class="pricing-features">
+          <li><span class="check">&#10003;</span> 无限作品集网站</li>
+          <li><span class="check">&#10003;</span> 全部高级模板</li>
+          <li><span class="check">&#10003;</span> 无限项目数量</li>
+          <li><span class="check">&#10003;</span> 自定义域名绑定</li>
+          <li><span class="check">&#10003;</span> 高级数据分析</li>
+          <li><span class="check">&#10003;</span> 去品牌标识</li>
+        </ul>
+        <a href="#" class="btn-primary" style="width:100%;justify-content:center">立即订阅</a>
+      </div>
     </div>
   </div>
 </section>
@@ -420,10 +596,10 @@
 <!-- BOTTOM CTA -->
 <section class="cta-section">
   <div class="container reveal">
-    <div class="cta-card">
+    <div class="cta-card card">
       <h2>别等了，现在就开始</h2>
       <p>加入 12,483 位创作者的行列，让你的作品替你赚钱。</p>
-      <a href="#" class="btn-primary lg">免费创建我的网站 →</a>
+      <a href="#" class="btn-primary lg">免费创建我的网站 &#10132;</a>
     </div>
   </div>
 </section>
@@ -432,69 +608,61 @@
 <footer>
   <div class="container">
     <div class="footer-links">
-      <a href="#">关于我们</a>
-      <a href="#">帮助中心</a>
-      <a href="#">隐私政策</a>
-      <a href="#">服务条款</a>
-      <a href="#">联系我们</a>
+      <a href="#">关于我们</a><a href="#">帮助中心</a><a href="#">隐私政策</a><a href="#">服务条款</a><a href="#">联系我们</a>
     </div>
-    <p class="copy">&copy; 2026 折页AI · PortfolioAI. All rights reserved.</p>
+    <p class="copy">&copy; 2026 折页AI &middot; PortfolioAI. All rights reserved.</p>
   </div>
 </footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
 (function(){
   /* ── Mobile menu ── */
-  var hamburger = document.getElementById('hamburger');
-  var navLinks = document.getElementById('navLinks');
+  var hamburger=document.getElementById('hamburger');
+  var navLinks=document.getElementById('navLinks');
   hamburger.addEventListener('click',function(){navLinks.classList.toggle('mobile-open')});
   navLinks.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){navLinks.classList.remove('mobile-open')})});
 
   /* ── Scroll reveal ── */
-  var observer = new IntersectionObserver(function(entries){
+  var observer=new IntersectionObserver(function(entries){
     entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})
-  },{threshold:.12,rootMargin:'0px 0px -30px 0px'});
+  },{threshold:.1,rootMargin:'0px 0px -20px 0px'});
   document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
 
-  /* ── CTA click — scroll to bottom CTA with toast ── */
-  var ctas = document.querySelectorAll('#heroCta,.btn-primary');
-  ctas.forEach(function(btn){
-    btn.addEventListener('click',function(e){
-      e.preventDefault();
-      // Just a demo action — show an alert
-      showToast('感谢你的兴趣！我们的生成器即将上线。');
-    });
-  });
-
-  /* ── Toast ── */
-  var toastEl = document.createElement('div');
-  toastEl.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120px);padding:.7rem 1.5rem;border-radius:100px;background:rgba(20,20,35,.95);border:1px solid rgba(255,255,255,.1);color:#f4f4f9;font-size:.82rem;font-weight:500;z-index:999;pointer-events:none;transition:transform .4s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px);font-family:inherit;white-space:nowrap';
-  document.body.appendChild(toastEl);
-  var toastTimer;
-  function showToast(msg){
-    toastEl.textContent = msg;
-    toastEl.style.transform = 'translateX(-50%) translateY(0)';
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){toastEl.style.transform = 'translateX(-50%) translateY(120px)'},2200);
-  }
-
-  /* ── Counter animation ── */
-  var counterEls = document.querySelectorAll('.hero-users strong');
-  var counterDone = false;
+  /* ── Hero counter animation ── */
+  var counterDone=false;
   function animateCounter(){
-    if(counterDone)return;
-    counterDone = true;
-    var target = 12483;
-    var current = 0;
-    var step = Math.ceil(target/40);
+    if(counterDone)return;counterDone=true;
+    var target=12483,current=0;
+    var el=document.getElementById('userStat');
+    var step=Math.ceil(target/50);
     function tick(){
-      current = Math.min(current+step,target);
-      counterEls.forEach(function(el){el.textContent = current.toLocaleString()});
-      if(current<target)requestAnimationFrame(function(){setTimeout(tick,35)})
+      current=Math.min(current+step,target);
+      el.textContent=current.toLocaleString();
+      if(current<target)requestAnimationFrame(function(){setTimeout(tick,25)})
     }
     tick();
   }
-  setTimeout(animateCounter,600);
+  setTimeout(animateCounter,400);
+
+  /* ── Toast ── */
+  var toast=document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg){
+    toast.textContent=msg;toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){toast.classList.remove('show')},2000);
+  }
+
+  /* ── CTA clicks ── */
+  document.querySelectorAll('.btn-primary').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();showToast('感谢关注！生成器即将上线，敬请期待。')})
+  });
+  document.querySelectorAll('.btn-secondary').forEach(function(btn){
+    btn.addEventListener('click',function(e){e.preventDefault();showToast('即将跳转到对应页面…')})
+  });
 })();
 </script>
 

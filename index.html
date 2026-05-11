@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品集网站生成器</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f9fafb;
+    --white: #ffffff;
+    --text: #1a1a2e;
+    --text-secondary: #5a5a7a;
+    --primary: #5b5fef;
+    --primary-hover: #4a4ed9;
+    --primary-light: #eeefff;
+    --border: #e2e4f0;
+    --card-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    --card-shadow-hover: 0 8px 32px rgba(91,95,239,0.10);
+  }
+
+  body {
+    font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ── Background decoration ── */
+  .bg-decoration {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .bg-circle {
+    position: absolute; border-radius: 50%;
+    background: radial-gradient(circle, rgba(91,95,239,0.06) 0%, transparent 70%);
+  }
+  .bg-circle:nth-child(1) { width: 600px; height: 600px; top: -200px; right: -150px; }
+  .bg-circle:nth-child(2) { width: 400px; height: 400px; bottom: -100px; left: -100px; }
+  .bg-circle:nth-child(3) { width: 300px; height: 300px; top: 50%; left: 60%; }
+
+  /* ── Container ── */
+  .container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── Header ── */
+  .header { text-align: center; padding: 3.5rem 0 2.5rem; }
+  .header-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: #fff; font-size: 1.5rem; margin-bottom: 1.25rem;
+    box-shadow: 0 6px 24px rgba(91,95,239,0.25);
+  }
+  .header h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .header p { color: var(--text-secondary); font-size: 0.92rem; }
+
+  /* ── Card ── */
+  .card {
+    background: var(--white); border-radius: 16px; padding: 2.5rem 2.5rem 2rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.3s;
+  }
+  .card:hover { box-shadow: var(--card-shadow-hover); }
+  .card-title {
+    font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+  }
+  .card-title .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--primary-light); color: var(--primary);
+    font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
+  }
+
+  /* ── Form elements ── */
+  .form-row { margin-bottom: 1.3rem; }
+  .form-row:last-child { margin-bottom: 0; }
+  label {
+    display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+  label .optional { color: var(--text-secondary); font-weight: 300; font-size: 0.75rem; }
+
+  input[type="text"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%; padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: inherit; font-size: 0.9rem; color: var(--text);
+    background: var(--bg);
+    transition: all 0.25s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(91,95,239,0.08);
+    background: var(--white);
+  }
+  textarea { resize: vertical; min-height: 70px; }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%235a5a7a'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer; }
+
+  /* ── Checkbox group ── */
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .checkbox-pill { position: relative; }
+  .checkbox-pill input { position: absolute; opacity: 0; pointer-events: none; }
+  .checkbox-pill label {
+    display: inline-block; padding: 0.5rem 1.1rem;
+    border: 1.5px solid var(--border); border-radius: 100px;
+    font-size: 0.82rem; font-weight: 400; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.25s;
+    margin: 0;
+  }
+  .checkbox-pill input:checked + label {
+    background: var(--primary-light); border-color: var(--primary); color: var(--primary);
+  }
+  .checkbox-pill label:hover { border-color: var(--primary); }
+
+  /* ── Button ── */
+  .btn-submit {
+    display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    width: 100%; padding: 1.05rem;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    color: #fff; border: none; border-radius: 12px;
+    font-family: inherit; font-size: 1rem; font-weight: 600; letter-spacing: 0.03em;
+    cursor: pointer; transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(91,95,239,0.3);
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(91,95,239,0.4); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* ── Loading overlay ── */
+  .overlay {
+    display: none; position: fixed; inset: 0; z-index: 100;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; flex-direction: column; gap: 1.5rem;
+  }
+  .overlay.active { display: flex; }
+  .spinner {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: conic-gradient(from 90deg, var(--primary) 0%, transparent 60%);
+    animation: spin 0.8s linear infinite;
+  }
+  .spinner-inner {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+  .spinner-wrapper { position: relative; width: 48px; height: 48px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 1.05rem; font-weight: 500; color: var(--text); }
+  .loading-sub { font-size: 0.82rem; color: var(--text-secondary); }
+
+  /* ── Success overlay ── */
+  .success-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    align-items: center; justify-content: center; flex-direction: column; gap: 1.5rem;
+  }
+  .success-overlay.active { display: flex; }
+  .success-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), #7c3aed);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 32px rgba(91,95,239,0.3);
+  }
+  .success-icon svg { width: 32px; height: 32px; }
+  .success-title { font-size: 1.4rem; font-weight: 600; text-align: center; }
+  .success-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.5rem; background: var(--primary-light);
+    border-radius: 10px; font-size: 0.95rem; font-weight: 500;
+    color: var(--primary); text-decoration: none; transition: all 0.25s;
+  }
+  .success-link:hover { background: #e0e1ff; }
+  .btn-reset {
+    padding: 0.7rem 2rem; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--white); font-family: inherit; font-size: 0.85rem; font-weight: 500;
+    color: var(--text-secondary); cursor: pointer; transition: all 0.25s;
+  }
+  .btn-reset:hover { border-color: var(--primary); color: var(--primary); }
+
+  /* ── Pulse dot ── */
+  .pulse-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--primary); margin-right: 0.4rem;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  @media (max-width: 600px) {
+    .card { padding: 1.5rem 1.25rem; }
+    .header { padding: 2rem 0 1.5rem; }
+    .header h1 { font-size: 1.4rem; }
+    .checkbox-group { gap: 0.4rem; }
+    .checkbox-pill label { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-decoration">
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+</div>
+
+<div class="container" id="mainContent">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">&#9733;</div>
+    <h1>作品集网站生成器</h1>
+    <p>填写以下信息，即刻生成专属于你的视觉作品集网站</p>
+  </div>
+
+  <!-- Form -->
+  <form id="generatorForm" novalidate>
+    <!-- Card 1: Basic Info -->
+    <div class="card">
+      <div class="card-title"><span class="num">1</span> 基本信息</div>
+
+      <div class="form-row">
+        <label>你的姓名 <span style="color:#e74c3c;">*</span></label>
+        <input type="text" id="name" placeholder="例如：林予安" required maxlength="20">
+      </div>
+
+      <div class="form-row">
+        <label>职业类型 <span style="color:#e74c3c;">*</span></label>
+        <select id="profession" required>
+          <option value="" disabled selected>请选择你的职业</option>
+          <option value="摄影师">摄影师</option>
+          <option value="室内设计师">室内设计师</option>
+          <option value="平面设计师">平面设计师</option>
+          <option value="插画师">插画师</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>一句话介绍自己 <span style="color:#e74c3c;">*</span></label>
+        <input type="text" id="tagline" placeholder="例如：用镜头捕捉光影，用设计讲述故事" required maxlength="40">
+      </div>
+    </div>
+
+    <!-- Card 2: Style -->
+    <div class="card">
+      <div class="card-title"><span class="num">2</span> 擅长风格（可多选） <span style="color:#e74c3c;">*</span></div>
+      <div class="checkbox-group" id="styleGroup">
+        <div class="checkbox-pill"><input type="checkbox" id="s1" value="现代简约"><label for="s1">现代简约</label></div>
+        <div class="checkbox-pill"><input type="checkbox" id="s2" value="复古文艺"><label for="s2">复古文艺</label></div>
+        <div class="checkbox-pill"><input type="checkbox" id="s3" value="日系清新"><label for="s3">日系清新</label></div>
+        <div class="checkbox-pill"><input type="checkbox" id="s4" value="暗黑高冷"><label for="s4">暗黑高冷</label></div>
+        <div class="checkbox-pill"><input type="checkbox" id="s5" value="商业大气"><label for="s5">商业大气</label></div>
+      </div>
+      <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:0.5rem;" id="styleHint">至少选择一项风格</div>
+    </div>
+
+    <!-- Card 3: Contact -->
+    <div class="card">
+      <div class="card-title"><span class="num">3</span> 联系方式</div>
+
+      <div class="form-row">
+        <label>微信号 <span style="color:#e74c3c;">*</span></label>
+        <input type="text" id="wechat" placeholder="例如：linyuan_visual" required maxlength="30">
+      </div>
+
+      <div class="form-row">
+        <label>作品集链接 <span class="optional">（选填）</span></label>
+        <input type="url" id="portfolioLink" placeholder="https://...">
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn-submit" id="submitBtn">
+      立即生成我的作品集网站 →
+    </button>
+  </form>
+
+  <p style="text-align:center; font-size:0.75rem; color:var(--text-secondary); margin-top:1rem;">
+    提交即表示你同意我们的服务条款。生成的结果页面链接为示例链接。
+  </p>
+</div>
+
+<!-- Loading overlay -->
+<div class="overlay" id="loadingOverlay">
+  <div class="spinner-wrapper"><div class="spinner"></div><div class="spinner-inner"></div></div>
+  <p class="loading-text"><span class="pulse-dot"></span>生成中，请稍候…</p>
+  <p class="loading-sub">正在为你定制专属作品集网站</p>
+</div>
+
+<!-- Success overlay -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <p class="success-title">你的专属作品集网站已生成！</p>
+  <a href="#" class="success-link" id="generatedLink" onclick="return false;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    <span id="linkText"></span>
+  </a>
+  <button class="btn-reset" onclick="location.reload();">再生成一个</button>
+</div>
+
+<script>
+(function() {
+  var form = document.getElementById('generatorForm');
+  var loadingOverlay = document.getElementById('loadingOverlay');
+  var successOverlay = document.getElementById('successOverlay');
+  var styleHint = document.getElementById('styleHint');
+  var submitBtn = document.getElementById('submitBtn');
+
+  /* ── Validate at least one style checked ── */
+  var checkboxes = document.querySelectorAll('#styleGroup input[type="checkbox"]');
+  checkboxes.forEach(function(cb) {
+    cb.addEventListener('change', function() {
+      var checked = document.querySelectorAll('#styleGroup input:checked');
+      if (checked.length > 0) {
+        styleHint.style.color = 'var(--text-secondary)';
+      }
+    });
+  });
+
+  /* ── Submit ── */
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Validate name
+    var nameInput = document.getElementById('name');
+    var name = nameInput.value.trim();
+    if (!name) { nameInput.focus(); return; }
+
+    // Validate profession
+    var profession = document.getElementById('profession').value;
+    if (!profession) { return; }
+
+    // Validate tagline
+    var taglineInput = document.getElementById('tagline');
+    var tagline = taglineInput.value.trim();
+    if (!tagline) { taglineInput.focus(); return; }
+
+    // Validate styles
+    var checked = document.querySelectorAll('#styleGroup input:checked');
+    if (checked.length === 0) {
+      styleHint.style.color = '#e74c3c';
+      styleHint.textContent = '请至少选择一项擅长风格';
+      return;
+    }
+    styleHint.style.color = 'var(--text-secondary)';
+    styleHint.textContent = '至少选择一项风格';
+
+    // Validate wechat
+    var wechatInput = document.getElementById('wechat');
+    var wechat = wechatInput.value.trim();
+    if (!wechat) { wechatInput.focus(); return; }
+
+    // Build fake link
+    var slug = name.replace(/\s+/g, '').toLowerCase() || 'portfolio';
+    var fakeLink = 'https://portfolio.site/' + slug;
+
+    // Show loading
+    loadingOverlay.classList.add('active');
+    submitBtn.disabled = true;
+
+    // Simulate generation (3s)
+    setTimeout(function() {
+      loadingOverlay.classList.remove('active');
+
+      // Show success
+      document.getElementById('linkText').textContent = fakeLink;
+      document.getElementById('generatedLink').href = '#';
+      successOverlay.classList.add('active');
+    }, 3000);
+  });
+})();
+</script>
+
+</body>
+</html>

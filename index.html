@@ -219,6 +219,35 @@
   .bento-item:nth-child(5) .bento-preview{background:linear-gradient(135deg,rgba(110,120,220,0.14),rgba(94,106,210,0.04))}
   .bento-item:nth-child(6) .bento-preview{background:linear-gradient(135deg,rgba(94,106,210,0.18),rgba(130,137,217,0.06))}
 
+  /* ── Bento: Real case (item 1) ── */
+  .bento-item.case-real{background:linear-gradient(135deg,#2a1810,#5c3520)}
+  .bento-item.case-real::before{background:radial-gradient(500px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.04),transparent 50%)}
+  .bento-item.case-real .bento-preview{background:linear-gradient(135deg,rgba(255,255,255,0.02),transparent)}
+  .bento-item.case-real .bento-info{
+    display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;
+    border-top:1px solid rgba(255,255,255,0.06);
+  }
+  .bento-item.case-real .bento-info h4{font-size:.95rem;margin-bottom:.2rem}
+  .bento-item.case-real .bento-info p{font-size:.72rem;color:rgba(255,255,255,0.45)}
+  .bento-case-link{
+    display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1.1rem;
+    border-radius:100px;border:1px solid rgba(255,255,255,0.2);color:#fff;
+    font-size:.72rem;font-weight:500;text-decoration:none;white-space:nowrap;
+    transition:all .3s;flex-shrink:0;font-family:inherit;
+    background:rgba(255,255,255,0.04);
+  }
+  .bento-case-link:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.35);color:#fff}
+  .bento-designer{font-size:.68rem;color:rgba(255,255,255,0.3);display:block;margin-top:.1rem}
+
+  /* ── Bento: Recruiting cards (items 2-6) ── */
+  .bento-item.case-recruit{
+    border-style:dashed;border-color:rgba(255,255,255,0.1);
+    cursor:default;
+  }
+  .bento-item.case-recruit:hover{border-color:rgba(255,255,255,0.18)}
+  .bento-item.case-recruit .bento-info h4{color:var(--text2);font-weight:500}
+  .bento-item.case-recruit .bento-info p{color:var(--text3)}
+
   /* ═════════════════════════════════
      FEATURES
      ═════════════════════════════════ */
@@ -428,12 +457,22 @@
     <h2 class="section-title">看看别人怎么用的</h2>
     <p class="section-sub">从摄影到设计，每种创作都能找到属于自己的表达。</p>
     <div class="bento-grid">
-      <div class="bento-item" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>光影集 · 人像摄影系列</h4><p>摄影师 · 陈一凡</p></div></div>
-      <div class="bento-item" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>城市呼吸 · 街拍</h4><p>摄影师 · 张浩然</p></div></div>
-      <div class="bento-item" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>素白 · 品牌设计</h4><p>平面设计师 · 李铭轩</p></div></div>
-      <div class="bento-item" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>幻想乡 · 插画集</h4><p>插画师 · 周小雅</p></div></div>
-      <div class="bento-item" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>灰度空间 · 建筑摄影系列</h4><p>室内设计师 · 王思涵</p></div></div>
-      <div class="bento-item" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>像素逻辑 · UI作品集</h4><p>UI 设计师 · 林语桐</p></div></div>
+      <div class="bento-item case-real" data-track>
+        <div class="bento-preview">作品缩略图</div>
+        <div class="bento-info">
+          <div>
+            <h4>栖序空间 · 室内设计</h4>
+            <p>法式中古风 / 住宅设计 / 商业空间</p>
+            <span class="bento-designer">设计师：Carton</span>
+          </div>
+          <a href="https://portfolio-generator-8arh.vercel.app/" target="_blank" rel="noopener" class="bento-case-link">查看案例 <i data-lucide="arrow-right" style="width:13px;height:13px"></i></a>
+        </div>
+      </div>
+      <div class="bento-item case-recruit" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>「招募中」</h4><p>免费体验，限3名</p></div></div>
+      <div class="bento-item case-recruit" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>「招募中」</h4><p>免费体验，限3名</p></div></div>
+      <div class="bento-item case-recruit" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>「招募中」</h4><p>免费体验，限3名</p></div></div>
+      <div class="bento-item case-recruit" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>「招募中」</h4><p>免费体验，限3名</p></div></div>
+      <div class="bento-item case-recruit" data-track><div class="bento-preview">作品缩略图</div><div class="bento-info"><h4>「招募中」</h4><p>免费体验，限3名</p></div></div>
     </div>
   </div>
 </section>
